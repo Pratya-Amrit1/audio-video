@@ -9,6 +9,7 @@
     "preview": "vite preview --port 5173"
   },
   "dependencies": {
+    "audio-video": "file:..",
     "bin-packing-brilliance": "file:..",
     "dayjs": "^1.11.13",
     "framer-motion": "^11.3.31",

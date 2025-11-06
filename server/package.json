@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
-    "seed": "node scripts/seed.js"
+    "seed": "node scripts/seed.js",
+    "build": "cd client && npm install && npm run build"
   },
   "dependencies": {
+    "audio-video": "file:..",
     "bin-packing-brilliance": "file:..",
     "cors": "^2.8.5",
     "dayjs": "^1.11.13",
@@ -20,14 +22,7 @@
     "uuid": "^10.0.0",
     "ws": "^8.18.0"
   },
-"devDependencies": {
-  "nodemon": "^3.1.7"
-},
-"scripts": {
-  "dev": "nodemon src/index.js",
-  "start": "node src/index.js",
-  "seed": "node scripts/seed.js",
-  "build": "cd client && npm install && npm run build"
-}
-
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
 }
