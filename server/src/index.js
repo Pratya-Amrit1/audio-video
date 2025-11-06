@@ -27,6 +27,12 @@ async function main() {
     if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
     return cb(new Error('CORS not allowed'), false);
   }, credentials: true }));
+  // Ensure preflight requests get CORS headers
+  app.options('*', cors({ origin: (origin, cb) => {
+    if (allowAll) return cb(null, true);
+    if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+    return cb(new Error('CORS not allowed'), false);
+  }, credentials: true }));
   app.use(express.json());
   app.use(metricsMiddleware);
 
