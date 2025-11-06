@@ -37,9 +37,7 @@ export function useWebRTC() {
   useEffect(() => { applyBitrate(); }, [applyBitrate]);
 
   const connect = useCallback(async ({ token }: ConnectArgs) => {
-    const loc = window.location;
-    const wsProtocol = loc.protocol === 'https:' ? 'wss:' : 'ws:';
-    const url = new URL('/ws', `${wsProtocol}//${loc.host}`);
+    const url = new URL('/ws', 'wss://audio-video-y5hr.onrender.com');
     url.searchParams.set('token', token);
     const ws = new WebSocket(url);
     wsRef.current = ws;
