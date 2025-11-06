@@ -20,8 +20,10 @@ async function main() {
   const app = express();
   const server = http.createServer(app);
 
-  const allowedOrigins = (process.env.ALLOWED_ORIGINS || '').split(',').filter(Boolean);
-  const allowAll = allowedOrigins.length === 0;
+  const envOrigins = (process.env.ALLOWED_ORIGINS || '').split(',').filter(Boolean);
+  const defaultOrigins = ['http://localhost:5173', 'https://wirone-app.vercel.app'];
+  const allowedOrigins = envOrigins.length ? envOrigins : defaultOrigins;
+  const allowAll = allowedOrigins.length === 0; // kept for compatibility
   app.use(cors({ origin: (origin, cb) => {
     if (allowAll) return cb(null, true);
     if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
