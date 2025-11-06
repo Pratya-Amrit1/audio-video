@@ -12,7 +12,7 @@ import { ChatPanel } from './components/ChatPanel';
 import { LiveReactions, ReactionOverlay } from './components/LiveReactions';
 import { VirtualBackground } from './components/VirtualBackground';
 
-const API_BASE = '/api';
+const API_BASE = 'https://audio-video-y5hr.onrender.com/api';
 
 export default function App() {
   return (
@@ -49,7 +49,7 @@ function Home() {
               <button
                 onClick={async () => {
                   try {
-                    const res = await fetch('/api/rooms', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+                    const res = await fetch(`${API_BASE}/rooms`, { method: 'POST', headers: { 'Content-Type': 'application/json' } });
                     if (!res.ok) throw new Error(await res.text());
                     const data = await res.json();
                     const rid = data.roomId || Math.random().toString(36).slice(2,7);
