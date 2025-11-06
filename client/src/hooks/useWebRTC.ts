@@ -23,6 +23,19 @@ export function useWebRTC() {
   const screenTrackRef = useRef<MediaStreamTrack | null>(null);
   const iceServersRef = useRef<RTCIceServer[] | undefined>(undefined);
 
+  const removePeer = useCallback((id: string) => {
+    const peer = peersRef.current.get(id);
+    if (peer) {
+      peer.pc.close();
+      peersRef.current.delete(id);
+      setPeers((prev) => {
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      });
+    }
+  }, []);
+
   const applyBitrate = useCallback(async () => {
     const bitrate = quality.bitrateKbps * 1000;
     await Promise.all(sendersRef.current.map(async (s) => {
