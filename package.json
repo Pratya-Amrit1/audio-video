@@ -1,22 +1,9 @@
-{
-  "name": "bin-packing-brilliance",
+
+  {
+  "name": "audio-video",
   "private": true,
-  "version": "0.1.0",
-  "workspaces": [
-    "server",
-    "client"
-  ],
   "scripts": {
-    "dev": "concurrently -n server,client -c blue,green \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
-    "dev:all": "concurrently -n mongo,turn,server,client -c cyan,magenta,blue,green \"docker compose up mongo -d\" \"docker compose up coturn -d\" \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
-    "seed": "npm --prefix server run seed",
-    "start": "npm --prefix server start",
-    "build": "npm --prefix client run build",
-    "lint": "echo linting is per-package"
-  },
-  "devDependencies": {
-    "concurrently": "^9.0.1"
+    "install-client": "cd client && npm install",
+    "build": "cd client && npm run build"
   }
 }
-
-
