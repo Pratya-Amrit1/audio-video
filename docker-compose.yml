@@ -1,0 +1,35 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongo-data:/data/db
+
+  coturn:
+    image: instrumentisto/coturn
+    restart: unless-stopped
+    ports:
+      - "3478:3478/udp"
+      - "3478:3478/tcp"
+    environment:
+      - TURN_USERNAME=demo
+      - TURN_PASSWORD=demo
+    command: >-
+      -n --no-cli --no-tls --no-dtls
+      --fingerprint
+      --lt-cred-mech
+      --user demo:demo
+      --realm binpacking.local
+      --no-software-attribute
+      --min-port=49160 --max-port=49200
+
+volumes:
+  mongo-data:
+    driver: local
+
+
