@@ -4,6 +4,9 @@ import cors from 'cors';
 import { WebSocketServer } from 'ws';
 import dotenv from 'dotenv';
 import pino from 'pino';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { initDb } from './lib/db.js';
 import { registerRoutes } from './lib/routes.js';
 import { createSignaling } from './lib/signaling.js';
@@ -31,6 +34,22 @@ async function main() {
 
   registerRoutes(app, logger);
   app.use('/metrics', metricsRouter());
+
+  // Optionally serve built client to avoid MIME/type issues when deploying a single service
+  try {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    const clientDist = path.resolve(__dirname, '../../client/dist');
+    if (process.env.SERVE_CLIENT === 'true' && fs.existsSync(clientDist)) {
+      app.use(express.static(clientDist));
+      app.get('*', (_req, res) => {
+        res.sendFile(path.join(clientDist, 'index.html'));
+      });
+      logger.info({ clientDist }, 'Serving static client assets');
+    }
+  } catch (e) {
+    logger.warn({ err: e }, 'Static client serving not enabled');
+  }
 
   const wss = new WebSocketServer({ server, path: '/ws' });
   createSignaling(wss, logger);
